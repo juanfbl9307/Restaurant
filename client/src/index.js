@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+
+//App modificada para optimizar React y la parte de Frontend
+/* import App from './RestoApp'; */
+
 import Reserves from './Reserve';
 import ListReserves from './ReserveList';
 import Restaurants from './restaurants';
@@ -20,10 +24,6 @@ ReactDOM.render(
       <Route path="/restaurantes" component={Restaurants} />
       <Route path="/eliminarrestaurantes" component={Delete} />
       <Route path="/modificarrestaurantes" component={Modify} />
-
-
-
-
     </Switch>
   </BrowserRouter>,
   rootElement

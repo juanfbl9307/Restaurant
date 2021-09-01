@@ -3,17 +3,14 @@ const dotenv = require('dotenv');
 const id = require('uuid');
 dotenv.config();
 
-
-
 var connection;
-
 
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_NAME || 'restaurantDb',
-}
+};
 
 const handleConnection = () => {
     connection = mysql.createConnection(dbConfig);
@@ -35,59 +32,49 @@ const handleConnection = () => {
         }
     });
 };
-
 handleConnection();
 
-
-const create = async (table, data) => {
-    let createId = id.v4();
-    let keys = [`restaurantId, restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL`];
-    let values = Object.values(data);
-    let query = `INSERT INTO ${table} (${keys}) VALUES (?,?)`;
-    connection.query(query, [createId, values], (err, result) => {
-
+const create = async (table, restaurantId, restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL) => {
+    let keys = [`restaurant_id, restaurant_name, restaurant_description, restaurant_address, restaurant_city, restaurant_img_url`];
+    let values = [`'${restaurantId}', '${restaurantName}', '${restaurantDescription}', '${restaurantAddress}', '${restaurantCity}', '${restaurantImgURL}'`];
+    let query = `INSERT INTO ${table} (${keys}) VALUES (${values})`;
+    const restaurantCration = connection.query(query, (err, result) => {
         if (err) {
-            return console.log(err);
+            console.log(err);
+            return null;
         };
         return result;
     });
+    return restaurantCration;
 };
 
 const deleteByName = async (table, restaurantName) => {
-    let query = `DELETE FROM ${table} WHERE restaurantName = '${restaurantName}'`;
-    connection.query(query, (err, result) => {
+    let query = `DELETE FROM ${table} WHERE restaurant_name = '${restaurantName}'`;
+    const nameDeleted = connection.query(query, (err, result) => {
 
         if (err) {
             return console.log(err);
         };
         return result;
     });
+    return nameDeleted;
 };
 
-const updateRestaurant = async (table, data) => {
-    let keys = [];
-    keys = Object.keys(data);
-    let values = [];
-    values = Object.values(data);
-    let update = [];
-    for (let index = 0; index < values.length; index++) {
-        update.push(`${keys[index]} = ${values[index]} `);
-    }
-    console.log(update)
-    let query = `UPDATE ${table} SET ${update}`;
-    connection.query(query, (err, result) => {
+const updateRestaurant = async (table, restaurantName, restaurtantNewName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL) => {
+    let query = `UPDATE ${table} SET restaurant_name = '${restaurtantNewName}', restaurant_description = '${restaurantDescription}', restaurant_address = '${restaurantAddress}', restaurant_city = '${restaurantCity}', restaurant_img_url = '${restaurantImgURL}' WHERE restaurant_name = '${restaurantName}'`;
+    const updated = connection.query(query, (err, result) => {
         if (err) {
             console.log(err)
             return;
         };
         return result;
     });
-
+    return updated;
 };
 
 const getSortByName = (table, sorted) => {
     let names = new Promise((resolve, reject) => {
-        let query = `SELECT * FROM ${table} ORDER BY restaurantName ${sorted}`;
+        let query = `SELECT * FROM ${table} ORDER BY restaurant_name ${sorted}`;
 
         connection.query(query, (err, result) => {
 
@@ -103,11 +90,11 @@ const getSortByName = (table, sorted) => {
     return names.then(result => {
         return result
     }).catch(e => { throw e });
-}
+};
 
 const getSortByCity = (table, sorted) => {
     let cities = new Promise((resolve, reject) => {
-        let query = `SELECT * FROM ${table} ORDER BY restaurantCity ${sorted}`;
+        let query = `SELECT * FROM ${table} ORDER BY restaurant_city ${sorted}`;
 
         connection.query(query, (err, result) => {
 
@@ -127,15 +114,17 @@ const getSortByCity = (table, sorted) => {
 
 const makeReserve = async (table, reserveNum, restaurantId, date, restaurantName) => {
     let createId = id.v4();
-    let keys = [`reserveNum, reserveDate, reserveId, restaurantId, restaurantName`];
-    let query = `INSERT INTO ${table} (${keys}) VALUES (?,?,?,?,?)`;
-    connection.query(query, [reserveNum, date, createId, restaurantId, restaurantName], (err, result) => {
+    let keys = [`reserve_number, reserve_date, reserve_id, restaurant_id, restaurant_name`];
+    let values = [`${reserveNum}, '${date}', '${createId}', '${restaurantId}', '${restaurantName}'`];
+    let query = `INSERT INTO ${table} (${keys}) VALUES (${values})`;
+    const reservation = connection.query(query, (err, result) => {
         if (err) {
             console.log(err)
-            return;
+            return err;
         };
         return result;
     });
+    return reservation;
 };
 
 const listReserves = async (table) => {
@@ -146,7 +135,7 @@ const listReserves = async (table) => {
                 console.log(err);
                 reject(err);
             }
-            resolve(JSON.parse(JSON.stringify(result)));
+            resolve(result);
         });
     });
     return reserves.then(result => {
@@ -156,7 +145,7 @@ const listReserves = async (table) => {
 };
 
 const listByDate = async (table, date) => {
-    let query = `SELECT COUNT (*) FROM ${table} WHERE reserveDate = '${date}'`;
+    let query = `SELECT COUNT (*) FROM ${table} WHERE reserve_date = '${date}'`;
     let reserves = new Promise((resolve, reject) => {
         connection.query(query, (err, result) => {
             if (err) {
@@ -174,7 +163,7 @@ const listByDate = async (table, date) => {
 };
 
 const listRestaurantDate = async (table, restaurantId, date) => {
-    let query = `SELECT COUNT (*) FROM ${table} WHERE restaurantId='${restaurantId}' AND reserveDate = '${date}'`;
+    let query = `SELECT COUNT (*) FROM ${table} WHERE restaurant_id ='${restaurantId}' AND reserve_date = '${date}'`;
     let reserves = new Promise((resolve, reject) => {
         connection.query(query, (err, result) => {
             if (err) {
@@ -193,7 +182,7 @@ const listRestaurantDate = async (table, restaurantId, date) => {
 
 const getRestaurantId = async (restaurantName) => {
     let restaurantId = new Promise((resolve, reject) => {
-        let query = `SELECT restaurantId FROM restaurants WHERE restaurantName = '${restaurantName}'`;
+        let query = `SELECT restaurant_id FROM restaurants WHERE restaurant_name = '${restaurantName}'`;
 
         connection.query(query, (err, result) => {
 
@@ -213,7 +202,7 @@ const getRestaurantId = async (restaurantName) => {
         result = Object.values(result[0])
         return result[0];
     }).catch(e => { throw e });
-}
+};
 
 
 

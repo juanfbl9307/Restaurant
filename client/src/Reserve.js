@@ -5,9 +5,6 @@ import { Button, Card, Form } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 function Reserves() {
 
@@ -69,7 +66,7 @@ function Reserves() {
                     <h1>Restaurantes: </h1>
                     {restaurants.map((val) => {
                         return <div className="card">
-                            Nombre: {val.restaurantName} Ciudad: {val.restaurantCity}
+                            Nombre: {val.restaurant_name} Ciudad: {val.restaurant_city}
                         </div>
                     })}
                 </div>

@@ -1,0 +1,32 @@
+version: "3.2"
+services: 
+    server:
+        build:
+            context: .
+        depends_on: 
+            - mysqlrestaurant
+        networks: 
+            - frontend
+            - backend
+        environment: 
+            - SERVER_PORT=3001
+            - DB_HOST=mysqlrestaurant
+            - DB_USER=juanbotero
+            - DB_PASSWORD=maxi
+            - DB_NAME=restaurantDb
+        volumes: 
+            - .:/app/server
+        ports: 
+            - "3001:3001"
+    mysqlrestaurant:
+        image: mysql:5.7
+        networks: 
+            - backend
+        environment: 
+            - MYSQL_ROOT_PASSWORD=my-secret-pw
+            - MYSQL_USER=juanbotero
+            - MYSQL_PASSWORD=maxi
+            - MYSQL_DATABASE=restaurantDb
+networks: 
+    frontend:
+    backend:

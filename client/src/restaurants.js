@@ -5,9 +5,6 @@ import { Button } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 function Restaurants() {
 
@@ -71,7 +68,7 @@ function Restaurants() {
             <h1>Restaurantes: </h1>
             {restaurants.map((val) => {
                 return <div className="card">
-                    Restaurante: {val.restaurantName} Ciudad: {val.restaurantCity}
+                    Restaurante: {val.restaurant_name} Ciudad: {val.restaurant_city}
                 </div>
             })}
         </div>

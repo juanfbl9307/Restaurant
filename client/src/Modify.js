@@ -5,13 +5,11 @@ import { Button, Form, Card } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 function Modify() {
 
     const [restaurantName, setRestaurantName] = useState('');
+    const [restaurtantNewName, setRestaurantNewName] = useState('');
     const [restaurantDescription, setRestaurantDescription] = useState('');
     const [restaurantAddress, setRestaurantAddress] = useState('');
     const [restaurantCity, setRestaurantCity] = useState('');
@@ -20,11 +18,11 @@ function Modify() {
 
 
     const submitRestaurant = () => {
-        Axios.post(routes.createRestaurant, {
-            restaurantName: restaurantName, restaurantDescription: restaurantDescription, restaurantAddress: restaurantAddress,
+        Axios.post(routes.modifyRestaurant, {
+            restaurantName: restaurantName, restaurtantNewName: restaurtantNewName, restaurantDescription: restaurantDescription, restaurantAddress: restaurantAddress,
             restaurantCity: restaurantCity, restaurantImgURL: restaurantImgURL
         }).then(() => {
-            alert('Restaurante agregado')
+            alert('Restaurante modificado')
         })
     }
 
@@ -67,7 +65,12 @@ function Modify() {
                         setRestaurantName(e.target.value)
                     }} />
 
-                    <Form.Label>Descripcion</Form.Label>
+                    <Form.Label>Nuevo Nombre del restaurante</Form.Label>
+                    <Form.Control type='text' name='newName' onChange={(e) => {
+                        setRestaurantNewName(e.target.value)
+                    }} />
+
+                    <Form.Label>Nueva Descripcion</Form.Label>
                     <Form.Control type='text' name='description' onChange={(e) => {
                         setRestaurantDescription(e.target.value)
                     }} />
@@ -75,22 +78,22 @@ function Modify() {
                         <p>Tipo de comida, ambiente y mas referencias!</p>
                     </Form.Text>
 
-                    <Form.Label>Direccion</Form.Label>
+                    <Form.Label>Nueva Direccion</Form.Label>
                     <Form.Control type='text' name='addres' placeholder="Calle 74 11 91" onChange={(e) => {
                         setRestaurantAddress(e.target.value)
                     }} />
 
-                    <Form.Label>Ciudad</Form.Label>
+                    <Form.Label>Nueva Ciudad</Form.Label>
                     <Form.Control type='text' name='city' placeholder="Bogota" onChange={(e) => {
                         setRestaurantCity(e.target.value)
                     }} />
 
-                    <Form.Label>Imagen</Form.Label>
+                    <Form.Label>Nueva Imagen</Form.Label>
                     <Form.Control type='text' name='imagen' placeholder="URL" onChange={(e) => {
                         setRestaurantImgURL(e.target.value)
                     }} />
 
-                    <Button onClick={submitRestaurant} >Agregar</Button>
+                    <Button onClick={submitRestaurant} >Modificar</Button>
                 </div>
             </Card.Body>
         </Card>
@@ -100,7 +103,7 @@ function Modify() {
             <h1>Restaurantes: </h1>
             {restaurants.map((val) => {
                 return <div className="card">
-                    Restaurante: {val.restaurantName}, Descripcion: {val.restaurantDescription}, Direccion: {val.restaurantAddress}, Ciudad: {val.restaurantCity}, Url Imagen: {val.restaurantImgURL}
+                    Restaurante: {val.restaurant_name}, Descripcion: {val.restaurant_description}, Direccion: {val.restaurant_address}, Ciudad: {val.restaurant_city}, Url Imagen: {val.restaurant_img_url}
                 </div>
 
             })}

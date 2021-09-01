@@ -5,9 +5,6 @@ import { Button } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 function ListReserves() {
     const [reserves, setListReserves] = useState([]);
@@ -43,7 +40,7 @@ function ListReserves() {
             <h1>Reservas: </h1>
             {reserves.map((val) => {
                 return <div className="card">
-                    Restaurante: {val.restaurantName} ,Numero de reserva: {val.reserveNum} ,Fecha: {val.reserveDate}
+                    Restaurante: {val.restaurant_name} ,Numero de reserva: {val.reserve_number} ,Fecha: {val.reserve_date}
                 </div>
             })}
         </div>

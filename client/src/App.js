@@ -5,12 +5,8 @@ import { Button, Card, Form } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 function App() {
-
 
   const [restaurantName, setRestaurantName] = useState('');
   const [restaurantDescription, setRestaurantDescription] = useState('');
@@ -46,8 +42,6 @@ function App() {
     <div class="divider" />
     <Link to="/reservas"><Button>Lista de Reservas
             </Button></Link>
-
-
 
     <Card>
       <Card.Body>

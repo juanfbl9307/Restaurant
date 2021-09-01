@@ -1,22 +1,62 @@
 const Restaurants = require('../repositories/restaurants');
+const Reserves = require('../repositories/reserves');
+const id = require('uuid');
 
 const RestaurantService = module.exports;
 
 RestaurantService.create = async (data) => {
-    await Restaurants.create(data);
-    creation = {
-        message: 'Restaurante creado exitosamente',
-        status: 200
+    const { restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL } = data;
+    const restaurantIdByName = await Reserves.getRestaurantIdByName(restaurantName);
+
+    if (restaurantIdByName) {
+        creation = {
+            message: 'Restaurante ya existe',
+            status: 400
+        };
+        return creation
+    };
+
+    const restaurantId = id.v4();
+    const restaurantCreated = await Restaurants.create(restaurantId, restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL);
+    if (restaurantCreated) {
+        creation = {
+            message: 'Restaurante creado exitosamente',
+            status: 200
+        };
+        return creation
+    } else {
+        creation = {
+            message: 'Error en el servidor',
+            status: 500
+        };
+        return creation
     }
-    return creation;
 };
 
 RestaurantService.deleteByName = async (restaurantName) => {
-    const response = await Restaurants.delete(restaurantName);
-    return result = {
-        message: response,
-        status: 200
+    const restaurantIdByName = await Reserves.getRestaurantIdByName(restaurantName);
+    if (!restaurantIdByName) {
+        creation = {
+            message: `Restaurante ${restaurantName} no existe`,
+            status: 400
+        };
+        return creation
+    };
+    const restaurantDeletion = await Restaurants.delete(restaurantName);
+    if (restaurantDeletion) {
+        creation = {
+            message: `Restaurante ${restaurantName} eliminado`,
+            status: 200
+        }
+        return creation;
+    } else {
+        creation = {
+            message: 'Error en el servidor',
+            status: 500
+        };
+        return creation;
     }
+
 };
 
 RestaurantService.getSortedNames = async (sorted) => {
@@ -38,12 +78,30 @@ RestaurantService.getSortedCities = async (sorted) => {
 };
 
 RestaurantService.editRestaurtants = async (data) => {
-    const response = await Restaurants.update(data);
-    result = {
-        status: 200,
-        message: response
+    const { restaurantName, restaurtantNewName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL } = data;
+    const restaurantIdByName = await Reserves.getRestaurantIdByName(restaurantName);
+    if (!restaurantIdByName) {
+        creation = {
+            message: `Restaurante ${restaurantName} no existe`,
+            status: 400
+        };
+        return creation
     };
-    return result
+    const response = await Restaurants.update(restaurantName, restaurtantNewName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL);
+    if (response) {
+        result = {
+            status: 200,
+            message: `Datos de restaurante ${restaurantName} actualizados`
+        };
+        return result;
+    } else {
+        result = {
+            status: 500,
+            message: `Internal server error`
+        };
+        return result;
+    }
+
 };
 
 

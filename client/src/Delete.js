@@ -5,15 +5,10 @@ import { Button, Card, Form } from 'react-bootstrap';
 import './App.css';
 import Axios from 'axios';
 const routes = require('./routes');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
 function Delete() {
 
     const [restaurantName, setRestaurantName] = useState('');
     const [restaurants, restaurantList] = useState([]);
-
 
     const submitRestaurant = () => {
         Axios.post(routes.deleteRestaurant, {
@@ -72,7 +67,7 @@ function Delete() {
             <h1>Nombres de Restaurantes: </h1>
             {restaurants.map((val) => {
                 return <div className="card">
-                    {val.restaurantName}
+                    Nombre del restaurante: {val.restaurant_name}
                 </div>
 
             })}

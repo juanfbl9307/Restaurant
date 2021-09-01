@@ -4,8 +4,8 @@ const database = mysql;
 const table = 'restaurants';
 const Restaurant = module.exports;
 
-Restaurant.create = async (restaurantData) => {
-    const createRestaurant = await database.create(table, restaurantData);
+Restaurant.create = async (restaurantId, restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL) => {
+    const createRestaurant = await database.create(table, restaurantId, restaurantName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL);
     return createRestaurant;
 };
 
@@ -24,17 +24,7 @@ Restaurant.getSortedByCity = async (sorted) => {
     return getCities;
 };
 
-Restaurant.update = async (data) => {
-    const updateRestaurants = await database.updateRestaurant(table, data);
+Restaurant.update = async (restaurantName, restaurtantNewName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL) => {
+    const updateRestaurants = await database.updateRestaurant(table, restaurantName, restaurtantNewName, restaurantDescription, restaurantAddress, restaurantCity, restaurantImgURL);
     return updateRestaurants;
-}
-
-
-
-
-
-/*
-
-Restaurant.edit
-
- */
+};

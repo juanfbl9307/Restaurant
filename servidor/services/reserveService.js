@@ -32,12 +32,19 @@ ReserveService.makeReserve = async (restaurantName, date) => {
     const reserveNum = (reservesRestaurant + 1);
 
     const response = await Reserves.reserve(reserveNum, restaurantIdByName, date, restaurantName);
-    result = {
-        status: 200,
-        message: { response, reserveNumber }
-    };
-    return result;
-
+    if (response) {
+        result = {
+            status: 200,
+            message: `Reserva en el restaurante: ${restaurantName} ,numero ${reserveNumber} exitosa`
+        };
+        return result;
+    } else {
+        result = {
+            status: 500,
+            message: `Internal server error`
+        };
+        return result;
+    }
 };
 
 ReserveService.getAllReserves = async () => {
