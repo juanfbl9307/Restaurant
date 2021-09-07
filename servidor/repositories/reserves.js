@@ -9,6 +9,7 @@ Reserves.reserve = async (reserveNum, restaurantId, date, restaurantName) => {
     return createReserve;
 };
 
+
 Reserves.listReserves = async () => {
     const listAllReserves = await database.listReserves(table);
     return listAllReserves;

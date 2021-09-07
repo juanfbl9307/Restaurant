@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "extra_config": {},
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "restaurants",
+  "port": 8000,
+  "endpoints": [
+    {
+      "endpoint": "/users",
+      "output_encoding": "no-op",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/users/create",
+          "encoding": "no-op",
+          "method": "POST",
+          "host": [
+            "http://localhost:3002"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/users",
+      "output_encoding": "no-op",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/users/list",
+          "encoding": "no-op",
+          "method": "GET",
+          "host": [
+            "http://localhost:3002"
+          ]
+        }
+      ]
+    }
+  ]
+}

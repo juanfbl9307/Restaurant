@@ -163,7 +163,7 @@ const listByDate = async (table, date) => {
 };
 
 const listRestaurantDate = async (table, restaurantId, date) => {
-    let query = `SELECT COUNT (*) FROM ${table} WHERE restaurant_id ='${restaurantId}' AND reserve_date = '${date}'`;
+    let query = `SELECT MAX(reserve_number) FROM ${table} WHERE restaurant_id = '${restaurantId}'`;
     let reserves = new Promise((resolve, reject) => {
         connection.query(query, (err, result) => {
             if (err) {
@@ -204,8 +204,24 @@ const getRestaurantId = async (restaurantName) => {
     }).catch(e => { throw e });
 };
 
+const createUser = async (table, username, password, role) => {
+    let keys = [`username, password, role`];
+    let values = [`'${username}', '${password}', '${role}'`];
+    let query = `INSERT INTO ${table} (${keys}) VALUES (${values})`;
+    const userCreation = connection.query(query, (err, result) => {
+        if (err) {
+            console.log(err);
+            return null;
+        };
+        return result;
+    });
+    return userCreation;
+};
 
 
-
-
-module.exports = { create, deleteByName, getSortByName, getSortByCity, makeReserve, listReserves, listByDate, listRestaurantDate, getRestaurantId, updateRestaurant };
+module.exports = {
+    create, deleteByName, getSortByName, getSortByCity,
+    makeReserve, listReserves, listByDate,
+    listRestaurantDate, getRestaurantId, updateRestaurant,
+    createUser
+};
