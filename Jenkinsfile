@@ -6,11 +6,11 @@ pipeline {
 
   }
   stages {
-    stage('run node') {
+    stage('server') {
       steps {
         sh '''ls
 cd servidor'''
-        sh 'docker-compose up'
+        sh 'node version'
       }
     }
 
