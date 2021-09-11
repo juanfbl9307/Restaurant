@@ -5,9 +5,8 @@ pipeline {
       steps {
         sh '''ls
 cd servidor'''
-        sh 'node version'
-        nodejs('14.17') {
-          sh 'npm install'
+        nodejs('14') {
+          sh 'node'
         }
 
       }
