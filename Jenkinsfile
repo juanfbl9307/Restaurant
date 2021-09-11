@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh '''ls
 cd servidor'''
-        nodejs('14') {
+        nodejs('recent node') {
           sh 'node'
         }
 
