@@ -5,6 +5,7 @@ pipeline {
       steps {
         sh '''ls
 cd servidor
+docker
 pwd'''
       }
     }
