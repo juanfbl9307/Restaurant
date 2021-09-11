@@ -11,6 +11,10 @@ pipeline {
         sh '''ls
 cd servidor'''
         sh 'node version'
+        nodejs('14.17') {
+          sh 'npm install'
+        }
+
       }
     }
 
