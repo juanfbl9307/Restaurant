@@ -1,14 +1,16 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label '14'
+    }
+
+  }
   stages {
     stage('server') {
       steps {
         sh '''ls
 cd servidor'''
-        nodejs('recent node') {
-          sh 'node'
-        }
-
+        sh 'node version'
       }
     }
 
