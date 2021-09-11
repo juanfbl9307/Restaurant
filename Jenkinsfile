@@ -4,7 +4,7 @@ pipeline {
     stage('server') {
       steps {
         sh '''ls
-cd servidor'''
+cd servidor
 pwd'''
       }
     }
