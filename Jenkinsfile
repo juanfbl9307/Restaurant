@@ -3,7 +3,9 @@ pipeline {
   stages {
     stage('run node') {
       steps {
-        sh 'ls'
+        sh '''ls
+cd servidor
+node version'''
       }
     }
 
