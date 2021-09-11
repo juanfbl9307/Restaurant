@@ -6,6 +6,7 @@ pipeline {
         sh '''ls
 cd servidor
 node version'''
+        sh 'docker-compose up'
       }
     }
 
