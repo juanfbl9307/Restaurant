@@ -1,14 +1,10 @@
 pipeline {
-  agent {
-    docker {
-      image 'servidor_server'
-    }
-
-  }
+  agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
         sh 'ls'
+        tool(name: 'dockerinstall', type: 'docker')
       }
     }
 
