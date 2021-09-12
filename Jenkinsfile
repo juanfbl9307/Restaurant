@@ -4,7 +4,8 @@ pipeline {
     stage('build') {
       steps {
         nodejs('node.js') {
-          sh '''npm install
+          sh '''cd servidor
+npm install
 knex migrate:latest
 npm run devStart'''
         }
