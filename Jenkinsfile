@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'node version'
+        sh '/Users/juanfelipeboterolyons/.nvm/versions/node/v14.17.1/bin/node -v'
       }
     }
 
