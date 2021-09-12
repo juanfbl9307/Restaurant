@@ -3,12 +3,12 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh '/Users/juanfelipeboterolyons/.nvm/versions/node/v14.17.1/bin/node -v'
         nodejs('node.js') {
-          sh 'node -v'
+          sh '''npm install
+knex migrate:latest
+npm run devStart'''
         }
 
-        sh 'node -v'
       }
     }
 
