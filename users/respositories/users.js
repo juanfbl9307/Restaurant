@@ -9,13 +9,13 @@ Users.create = async (data) => {
 };
 
 Users.findById = async (data) => {
-    const userIdFinded = mongo.find(data);
-    return userIdFinded;
+    const userIdFind = mongo.find(data);
+    return userIdFind;
 };
 
 Users.findByName = async (data) => {
-    const userIdFinded = mongo.find(data);
-    return userIdFinded;
+    const userIdFind = mongo.find(data);
+    return userIdFind;
 };
 
 Users.modify = async (data) => {

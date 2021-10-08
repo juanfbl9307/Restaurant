@@ -1,11 +1,11 @@
 const Users = require('../respositories/users');
-const passwordEncoging = require('md5');
+const passwordEncoding = require('md5');
 
 const UserService = module.exports;
 
 UserService.createUser = async (username, password) => {
 
-    const data = { username, password: passwordEncoging(JSON.stringify(password)) }
+    const data = { username, password: passwordEncoding(JSON.stringify(password)) }
     const username_data = { username: `${username}` };
     const userExist = await Users.findByName(username_data);
     let result;
@@ -32,7 +32,7 @@ UserService.createUser = async (username, password) => {
 };
 
 UserService.validateAuth = async (username, password) => {
-    const username_password = { password: passwordEncoging(JSON.stringify(password)) };
+    const username_password = { password: passwordEncoding(JSON.stringify(password)) };
     const userValidate = await Users.findByName(username_password);
     if (userValidate) {
         let response = {

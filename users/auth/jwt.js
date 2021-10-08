@@ -5,7 +5,7 @@ require('dotenv').config()
 const secret = process.env.SECRET;
 
 const getToken = async (data) => {
-    const token = await jwt.sign(data, secret);
+    const token = jwt.sign(data, secret);
     return token;
 };
 
